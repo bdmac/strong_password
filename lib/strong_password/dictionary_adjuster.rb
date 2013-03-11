@@ -55,7 +55,7 @@ module StrongPassword
     
     def is_strong?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
       adjusted_entropy(entropy_threshhold: min_entropy,
-                       minwordlen: min_word_length,
+                       min_word_length: min_word_length,
                        extra_words: extra_dictionary_words) >= min_entropy
     end
     
@@ -68,7 +68,7 @@ module StrongPassword
     # processing.
     # Note that we only check for the first matching word up to the threshhold if set.
     # Subsequent matching words are not deductd.
-    def adjusted_entropy(minwordlen: 4, extra_words: [], entropy_threshhold: -1)
+    def adjusted_entropy(min_word_length: 4, extra_words: [], entropy_threshhold: -1)
       dictionary_words = COMMON_PASSWORDS + extra_words
       min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
@@ -81,9 +81,9 @@ module StrongPassword
             next_non_word = variant.index(/\s/, x)
             x2 =  next_non_word ? next_non_word : variant.length + 1
             found = false
-            while !found && (x2 - x >= minwordlen)
-              word = variant[x, minwordlen]
-              word += variant[(x + minwordlen)..x2].reverse.chars.inject('') {|memo, c| "(#{Regexp.quote(c)}#{memo})?"} if (x + minwordlen) <= y
+            while !found && (x2 - x >= min_word_length)
+              word = variant[x, min_word_length]
+              word += variant[(x + min_word_length)..x2].reverse.chars.inject('') {|memo, c| "(#{Regexp.quote(c)}#{memo})?"} if (x + min_word_length) <= y
               results = dictionary_words.grep(/\b#{word}\b/)
               if results.empty?
                 x = x + 1

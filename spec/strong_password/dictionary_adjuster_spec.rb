@@ -48,6 +48,19 @@ module StrongPassword
           expect(DictionaryAdjuster.new(password).adjusted_entropy).to eq(bits)
         end
       end
+      
+      it 'allows extra words to be provided as an array' do
+        password = 'mcmanus'
+        base_entropy = EntropyCalculator.calculate(password)
+        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_words: ['mcmanus'])).not_to eq(base_entropy)
+      end
+      
+      it 'allows minimum word length to be adjusted' do
+        password = '6969'
+        base_entropy = DictionaryAdjuster.new(password).adjusted_entropy
+        # If we increase the min_word_length above the length of the password we should get a higher entropy
+        expect(DictionaryAdjuster.new(password).adjusted_entropy(min_word_length: 6)).not_to be < base_entropy
+      end
     end
   end
 end
