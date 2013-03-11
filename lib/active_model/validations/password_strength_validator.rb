@@ -13,7 +13,7 @@ module ActiveModel
       def strength_options(options, object)
         strength_options = options.dup
         strength_options[:extra_dictionary_words] = extra_words_for_object(strength_options[:extra_dictionary_words], object)
-        strength_options
+        strength_options.slice(:min_entropy, :use_dictionary, :min_word_length, :extra_dictionary_words)
       end
 
       def extra_words_for_object(extra_words, object)
