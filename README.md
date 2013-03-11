@@ -25,7 +25,7 @@ Or install it yourself as:
 
 ## Usage
 
-Usage instructions
+
 
 ## Contributing
 
