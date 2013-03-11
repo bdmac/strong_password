@@ -56,7 +56,7 @@ module StrongPassword
     def is_strong?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
       adjusted_entropy(entropy_threshhold: min_entropy,
                        min_word_length: min_word_length,
-                       extra_words: extra_dictionary_words) >= min_entropy
+                       extra_dictionary_words: extra_dictionary_words) >= min_entropy
     end
     
     def is_weak?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
@@ -68,8 +68,8 @@ module StrongPassword
     # processing.
     # Note that we only check for the first matching word up to the threshhold if set.
     # Subsequent matching words are not deductd.
-    def adjusted_entropy(min_word_length: 4, extra_words: [], entropy_threshhold: -1)
-      dictionary_words = COMMON_PASSWORDS + extra_words
+    def adjusted_entropy(min_word_length: 4, extra_dictionary_words: [], entropy_threshhold: -1)
+      dictionary_words = COMMON_PASSWORDS + extra_dictionary_words
       min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
       PasswordVariants.all_variants(base_password).each_with_index do |variant, num|

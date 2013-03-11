@@ -27,5 +27,11 @@ module StrongPassword
         return !weak
       end
     end
+    
+    def calculate_entropy(use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
+      entropies = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(base_password.downcase), QwertyAdjuster.new(base_password).adjusted_entropy]
+      entropies << DictionaryAdjuster.new(base_password).adjusted_entropy(min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words) if use_dictionary
+      entropies.min
+    end
   end
 end

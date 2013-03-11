@@ -21,6 +21,10 @@ class TestStrengthExtraWords < User
   validates :password, password_strength: {extra_dictionary_words: ['mcmanus'], use_dictionary: true}
 end
 
+class TestBaseStrengthAlternative < User
+  validates_password_strength :password
+end
+
 module ActiveModel
   module Validations
     describe PasswordStrengthValidator do
@@ -28,6 +32,7 @@ module ActiveModel
       let(:weak_entropy) { TestStrengthWeakEntropy.new }
       let(:strong_entropy) { TestStrengthStrongEntropy.new }
       let(:extra_words) { TestStrengthExtraWords.new }
+      let(:alternative_usage) { TestBaseStrengthAlternative.new }
       
       describe 'validations' do
         describe 'base strength' do
@@ -57,6 +62,38 @@ module ActiveModel
                 base_strength.password = password
                 base_strength.valid?
                 expect(base_strength.errors[:password]).to be_empty
+              end
+            end
+          end
+        end
+        
+        describe 'alternative usage' do
+          describe 'invalid' do
+            [
+              'password',
+              '1234',
+              'f0bar',
+              'b@s3'
+            ].each do |password|
+              it "adds errors when password is '#{password}'" do
+                alternative_usage.password = password
+                alternative_usage.valid?
+                expect(alternative_usage.errors[:password]).to eq(["Password is too weak"])
+              end
+            end
+          end
+          
+          describe 'valid' do
+            [
+              'p@ssw0fdsafsdafrd',
+              'b@se3ball rocks',
+              'f0bar plus baz',
+              'b@s3_9123as##!1?'
+            ].each do |password|
+              it "does not add errors when password is '#{password}'" do
+                alternative_usage.password = password
+                alternative_usage.valid?
+                expect(alternative_usage.errors[:password]).to be_empty
               end
             end
           end

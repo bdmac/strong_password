@@ -52,7 +52,7 @@ module StrongPassword
       it 'allows extra words to be provided as an array' do
         password = 'mcmanus'
         base_entropy = EntropyCalculator.calculate(password)
-        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_words: ['mcmanus'])).not_to eq(base_entropy)
+        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_dictionary_words: ['mcmanus'])).not_to eq(base_entropy)
       end
       
       it 'allows minimum word length to be adjusted' do
