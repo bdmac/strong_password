@@ -61,6 +61,17 @@ class User
 end
 ```
 
+The default validation message is "%{attribute} is too weak".  If you would like to customize that you can override it in your locale file
+by setting a value for this key:
+
+```yml
+en:
+  errors:
+    messages:
+      password:
+        password_strength: "%{attribute} is a terrible password, try again!"
+```
+
 ### Standalone
 
 StrongPassword can also be used standalone if you need to. There are a few helper methods for determining whether a
