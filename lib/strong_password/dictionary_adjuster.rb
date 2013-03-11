@@ -53,22 +53,24 @@ module StrongPassword
       @base_password = password.dup.downcase
     end
     
-    def is_strong?(entropy_threshhold: 18, minwordlen: 4, extra_words: [])
-      adjusted_entropy(entropy_threshhold: entropy_threshhold,
-                       minwordlen: minwordlen,
-                       extra_words: extra_words) >= entropy_threshhold
+    def is_strong?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
+      adjusted_entropy(entropy_threshhold: min_entropy,
+                       minwordlen: min_word_length,
+                       extra_words: extra_dictionary_words) >= min_entropy
     end
     
-    def is_weak?(entropy_threshhold: 18)
-      !is_strong?(entropy_threshhold: entropy_threshhold)
+    def is_weak?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
+      !is_strong?(min_entropy: min_entropy, min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words)
     end
     
     # Returns the minimum entropy for the passwords dictionary adjustments.
     # If a threshhold is specified we will bail early to avoid unnecessary
     # processing.
-    def adjusted_entropy(minwordlen: 4, extra_words: [], entropy_threshhold: 0)
+    # Note that we only check for the first matching word up to the threshhold if set.
+    # Subsequent matching words are not deductd.
+    def adjusted_entropy(minwordlen: 4, extra_words: [], entropy_threshhold: -1)
       dictionary_words = COMMON_PASSWORDS + extra_words
-      min_entropy = Float::INFINITY
+      min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
       PasswordVariants.all_variants(base_password).each_with_index do |variant, num|
         y = variant.length
@@ -84,16 +86,17 @@ module StrongPassword
               word += variant[(x + minwordlen)..x2].reverse.chars.inject('') {|memo, c| "(#{Regexp.quote(c)}#{memo})?"} if (x + minwordlen) <= y
               results = dictionary_words.grep(/\b#{word}\b/)
               if results.empty?
-                variant[x] = '*'
                 x = x + 1
-                numbits = EntropyCalculator.calculate(variant[0, x])
-                found = true if numbits >= entropy_threshhold
+                numbits = EntropyCalculator.calculate('*' * x)
+                # If we have enough entropy at this length on a fully masked password with 
+                # duplicates weakened then we can just bail on this variant
+                found = true if entropy_threshhold >= 0 && numbits >= entropy_threshhold
               else
                 results.each do |match|
                   break unless match.present?
-                  # Substitute *s for matched portion of word and calculate entropy
-                  stripped_variant = variant.tr(match.strip.sub('-', '\\-'), '*')
-                  numbits = EntropyCalculator.calculate(stripped_variant)
+                  # Substitute a single * for matched portion of word and calculate entropy
+                  variant = variant.sub(match.strip.sub('-', '\\-'), '*')
+                  numbits = EntropyCalculator.calculate(variant)
                   min_entropy = [min_entropy, numbits].min
                   return min_entropy if min_entropy < entropy_threshhold
                 end

@@ -1,7 +1,10 @@
 module StrongPassword
   class QwertyAdjuster
     QWERTY_STRINGS = [
-      "1234567890-qwertyuiopasdfghjkl;zxcvbnm,./",
+      "1234567890-",
+      "qwertyuiop",
+      "asdfghjkl;",
+      "zxcvbnm,./",
       "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-['=]:?_{\"+}",
       "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik9ol0p",
       "qazwsxedcrfvtgbyhnujmik,ol.p;/-['=]:?_{\"+}",
@@ -25,7 +28,7 @@ module StrongPassword
     end
     
     def is_weak?(min_entropy: 18)
-      !is_strong?(entropy_threshhold: min_entropy)
+      !is_strong?(min_entropy: min_entropy)
     end
     
     # Returns the minimum entropy for the password's qwerty locality
@@ -33,11 +36,10 @@ module StrongPassword
     # early to avoid unnecessary processing.
     def adjusted_entropy(entropy_threshhold: 0)
       revpassword = base_password.reverse
-      min_entropy = [EntropyCalculator.bits(base_password), EntropyCalculator.bits(revpassword)].min
+      min_entropy = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(revpassword)].min
       QWERTY_STRINGS.each do |qwertystr|
         qpassword = mask_qwerty_strings(base_password, qwertystr)
         qrevpassword = mask_qwerty_strings(revpassword, qwertystr)
-        
         if qpassword != base_password
           numbits = EntropyCalculator.calculate(qpassword)
           min_entropy = [min_entropy, numbits].min

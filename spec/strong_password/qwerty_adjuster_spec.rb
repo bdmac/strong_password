@@ -33,7 +33,8 @@ module StrongPassword
         'lkjhgfd' => 6,
         '0987654321' => 5.5,
         'zxcvbnm' => 6,
-        '/.,mnbvcx' => 5.5
+        '/.,mnbvcx' => 5.5,
+        'password' => 17.5 # Ensure that we don't qwerty-adjust 'password'
       }.each do |password, bits|
         it "returns #{bits} for '#{password}'" do
           expect(QwertyAdjuster.new(password).adjusted_entropy).to eq(bits)

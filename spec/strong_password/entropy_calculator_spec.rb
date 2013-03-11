@@ -45,10 +45,19 @@ module StrongPassword
         '**' => 5.5,
         '***' => 6.625,
         '****' => 7.46875,
-        '****a' => 9.46875
+        '****a' => 9.46875,
+        '********' => 9.1990966796875
       }.each do |password, bits|
         it "returns #{bits} for #{password.length} characters" do
           expect(subject.bits_with_repeats_weakened(password)).to eq(bits)
+        end
+      end
+      
+      it 'returns the same value for repeated calls on a password' do
+        password = 'password'
+        initial_value = subject.bits_with_repeats_weakened(password)
+        5.times do
+          expect(subject.bits_with_repeats_weakened(password)).to eq(initial_value)
         end
       end
     end

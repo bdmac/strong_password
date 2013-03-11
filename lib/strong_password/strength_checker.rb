@@ -21,7 +21,6 @@ module StrongPassword
              (QwertyAdjuster.new(base_password).is_weak?(min_entropy: min_entropy))
       if !weak && use_dictionary
         return DictionaryAdjuster.new(base_password).is_strong?(min_entropy: min_entropy,
-                    use_dictionary: use_dictionary, 
                     min_word_length: min_word_length, 
                     extra_dictionary_words: extra_dictionary_words)
       else
