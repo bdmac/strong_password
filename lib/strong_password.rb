@@ -7,8 +7,9 @@ require 'strong_password/strength_checker'
 require 'strong_password/password_variants'
 require 'strong_password/dictionary_adjuster'
 require 'strong_password/qwerty_adjuster'
-require 'strong_password/validators/strength_validator' if defined?(ActiveModel)
-require 'strong_password/railtie' if defined?(Rails)
+require 'active_model/validations/password_strength_validator' if defined?(ActiveModel)
 
 module StrongPassword
 end
+
+I18n.load_path << File.dirname(__FILE__) + '/strong_password/locale/en.yml' if defined?(I18n)

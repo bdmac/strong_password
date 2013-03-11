@@ -1,10 +1,12 @@
-module StrongPassword
-  module Validators
+require 'strong_password'
+
+module ActiveModel
+  module Validations
     class PasswordStrengthValidator < ActiveModel::EachValidator
       def validate_each(object, attribute, value)
         ps = ::StrongPassword::StrengthChecker.new(value)
         unless ps.is_strong?(strength_options(options, object))
-          object.errors.add(attribute, :password_strength, options.merge(:value => value))
+          object.errors.add(attribute, :'password.password_strength', options.merge(:value => value))
         end
       end
 
@@ -26,12 +28,16 @@ module StrongPassword
         extra_words || []
       end
     end
-  end
-end
-
-# Refactor this to... railtie?
-module ::ActiveModel::Validations::HelperMethods
-  def validates_password_strength(*attr_names)
-    validates_with ::StrongPassword::Valiators::PasswordStrengthValidator, _merge_attributes(attr_names)
+    
+    module HelperMethods
+      #   class User < ActiveRecord::Base
+      #     validates_password_strength :password
+      #     validates_password_strength :password, extra_dictionary_words: :extra_words
+      #   end
+      #
+      def validates_password_strength(*attr_names)
+        validates_with PasswordStrengthValidator, _merge_attributes(attr_names)
+      end
+    end
   end
 end
