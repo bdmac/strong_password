@@ -46,23 +46,23 @@ module StrongPassword
       "blondes","enjoy","girl","apollo","parker","qwert","time","sydney","women","voodoo","magnum",
       "juice","abgrtyu","777777","dreams","maxwell","music","rush2112","russia","scorpion","rebecca",
       "tester","mistress","phantom","billy","6666","albert"]
-    
+
     attr_reader :base_password
-    
+
     def initialize(password)
       @base_password = password.dup.downcase
     end
-    
+
     def is_strong?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
       adjusted_entropy(entropy_threshhold: min_entropy,
                        min_word_length: min_word_length,
                        extra_dictionary_words: extra_dictionary_words) >= min_entropy
     end
-    
+
     def is_weak?(min_entropy: 18, min_word_length: 4, extra_dictionary_words: [])
       !is_strong?(min_entropy: min_entropy, min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words)
     end
-    
+
     # Returns the minimum entropy for the passwords dictionary adjustments.
     # If a threshhold is specified we will bail early to avoid unnecessary
     # processing.
@@ -82,13 +82,13 @@ module StrongPassword
             x2 =  next_non_word ? next_non_word : variant.length + 1
             found = false
             while !found && (x2 - x >= min_word_length)
-              word = variant[x, min_word_length]
+              word = Regexp.quote(variant[x, min_word_length])
               word += variant[(x + min_word_length)..x2].reverse.chars.inject('') {|memo, c| "(#{Regexp.quote(c)}#{memo})?"} if (x + min_word_length) <= y
               results = dictionary_words.grep(/\b#{word}\b/)
               if results.empty?
                 x = x + 1
                 numbits = EntropyCalculator.calculate('*' * x)
-                # If we have enough entropy at this length on a fully masked password with 
+                # If we have enough entropy at this length on a fully masked password with
                 # duplicates weakened then we can just bail on this variant
                 found = true if entropy_threshhold >= 0 && numbits >= entropy_threshhold
               else
