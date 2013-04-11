@@ -15,7 +15,7 @@ NOTE: StrongPassword requires the use of Ruby 2.0.  Upgrade if you haven't alrea
 
 Add this line to your application's Gemfile:
 
-    gem 'strong_password', '~> 0.0.1'
+    gem 'strong_password', '~> 0.0.2'
 
 And then execute:
 
@@ -38,7 +38,7 @@ model, it simply has to be an object that includes `ActiveModel::Validations`.  
 ```ruby
 class User
   include ActiveModel::Validations
-  
+
   # Basic usage.  Defaults to minimum entropy of 18 and no dictionary checking
   validates :password, password_strength: true
   # Minimum entropy can be specified as min_entropy
@@ -53,7 +53,7 @@ class User
   validates :password, password_strength: {extra_dictionary_words: :my_extra_words, use_dictionary: true}
   # Alternative way to request password strength validation on a field
   validates_password_strength :password
-  
+
   # Return an array of words to add to the dictionary we check against.
   def my_extra_words
     ['extra', 'words', 'here', 'too']
@@ -79,15 +79,15 @@ password is strong or not. You can also directly access the entropy calculations
 
 ```text
 2.0.0p0 :001 > checker = StrongPassword::StrengthChecker.new('password')
- => #<StrongPassword::StrengthChecker:0x007fcd7c939b48 @base_password="password"> 
+ => #<StrongPassword::StrengthChecker:0x007fcd7c939b48 @base_password="password">
 2.0.0p0 :002 > checker.is_strong?
- => false 
+ => false
 2.0.0p0 :003 > checker.is_weak?
- => true 
+ => true
 2.0.0p0 :004 > checker.is_strong?(min_entropy: 2)
- => true 
+ => true
 2.0.0p0 :005 > checker.calculate_entropy
- => 15.5 
+ => 15.5
 2.0.0p0 :006 > checker.calculate_entropy(use_dictionary: true)
  => 2
 ```
@@ -145,7 +145,7 @@ disallowed by the strength checker.
    the 500 most common passwords.  That also means it's not a true "dictionary" check...
 2. Add a common password adjuster that basically works like the existing DictionaryAdjuster but does
    not stop at the first found word.  Stopping at the first word make sense if you have a 300,000 word
-   dictionary of the English language but not so much when you're only talking about the 500 most 
+   dictionary of the English language but not so much when you're only talking about the 500 most
    common passwords.
 
 ## Contributing
