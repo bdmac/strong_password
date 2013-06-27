@@ -4,9 +4,9 @@ module ActiveModel
   module Validations
     class PasswordStrengthValidator < ActiveModel::EachValidator
       def validate_each(object, attribute, value)
-        ps = ::StrongPassword::StrengthChecker.new(value)
+        ps = ::StrongPassword::StrengthChecker.new(value.to_s)
         unless ps.is_strong?(strength_options(options, object))
-          object.errors.add(attribute, :'password.password_strength', options.merge(:value => value))
+          object.errors.add(attribute, :'password.password_strength', options.merge(:value => value.to_s))
         end
       end
 
@@ -28,7 +28,7 @@ module ActiveModel
         extra_words || []
       end
     end
-    
+
     module HelperMethods
       #   class User < ActiveRecord::Base
       #     validates_password_strength :password

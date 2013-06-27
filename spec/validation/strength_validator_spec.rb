@@ -9,7 +9,7 @@ class TestBaseStrength < User
   validates :password, password_strength: true
 end
 
-class TestStrengthWeakEntropy< User
+class TestStrengthWeakEntropy < User
   validates :password, password_strength: {min_entropy: 1, use_dictionary: true}
 end
 
@@ -33,11 +33,12 @@ module ActiveModel
       let(:strong_entropy) { TestStrengthStrongEntropy.new }
       let(:extra_words) { TestStrengthExtraWords.new }
       let(:alternative_usage) { TestBaseStrengthAlternative.new }
-      
+
       describe 'validations' do
         describe 'base strength' do
           describe 'invalid' do
             [
+              nil,
               'password',
               '1234',
               'f0bar',
@@ -50,7 +51,7 @@ module ActiveModel
               end
             end
           end
-          
+
           describe 'valid' do
             [
               'p@ssw0fdsafsdafrd',
@@ -66,7 +67,7 @@ module ActiveModel
             end
           end
         end
-        
+
         describe 'alternative usage' do
           describe 'invalid' do
             [
@@ -82,7 +83,7 @@ module ActiveModel
               end
             end
           end
-          
+
           describe 'valid' do
             [
               'p@ssw0fdsafsdafrd',
@@ -98,7 +99,7 @@ module ActiveModel
             end
           end
         end
-        
+
         describe 'entropy override' do
           describe 'lowered entropy' do
             describe 'valid' do
@@ -116,7 +117,7 @@ module ActiveModel
               end
             end
           end
-          
+
           describe 'increased entropy' do
             describe 'valid' do
               [
@@ -134,7 +135,7 @@ module ActiveModel
             end
           end
         end
-        
+
         describe 'extra words' do
           it 'allows extra words to be specified as an option to the validation' do
             password = 'mcmanus'
