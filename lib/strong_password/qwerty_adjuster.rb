@@ -20,7 +20,7 @@ module StrongPassword
     attr_reader :base_password
     
     def initialize(password)
-      @base_password = password.dup.downcase
+      @base_password = password.downcase
     end
     
     def is_strong?(min_entropy: 18)

@@ -108,7 +108,7 @@ module StrongPassword
     
     # Returns all variants of a given password including the password itself
     def self.all_variants(password)
-      passwords = [password.dup.downcase]
+      passwords = [password.downcase]
       passwords += keyboard_shift_variants(password)
       passwords += leet_speak_variants(password)
       passwords.uniq
@@ -116,7 +116,7 @@ module StrongPassword
 
     # Returns all keyboard shifted variants of a given password
     def self.keyboard_shift_variants(password)
-      password = password.dup.downcase
+      password = password.downcase
       variants = []
       
       if (password == password.tr(KEYBOARDMAP_DOWN_NOSHIFT.keys.join, KEYBOARDMAP_DOWN_NOSHIFT.values.join))
@@ -133,7 +133,7 @@ module StrongPassword
 
     # Returns all leet speak variants of a given password
     def self.leet_speak_variants(password)
-      password = password.dup.downcase
+      password = password.downcase
       variants = []
 
       leet = password.tr(LEET_SPEAK_1.keys.join, LEET_SPEAK_1.values.join)
