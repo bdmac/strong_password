@@ -21,11 +21,12 @@ module StrongPassword
         'blahblah' => true,
         'password' => false,
         'wwwwwwww' => false,
-        'adamruge' => true,
+        'adamruge' => false,
+        'madaegur' => true,
         'aB$1' => false
       }.each do |password, strength|
         it "is_strong? returns #{strength} for '#{password}' with 12 bits of entropy" do
-          expect(StrengthChecker.new(password).is_strong?(min_entropy: 12, use_dictionary: true)).to be(strength)
+          expect(StrengthChecker.new(password).is_strong?(min_entropy: 12, use_dictionary: true)).to eq(strength)
         end
       end
     end
@@ -40,7 +41,7 @@ module StrongPassword
         'correct horse battery staple' => true
       }.each do |password, strength|
         it "is_strong? returns #{strength} for '#{password}' with standard bits of entropy" do
-          expect(StrengthChecker.new(password).is_strong?(use_dictionary: true)).to be(strength)
+          expect(StrengthChecker.new(password).is_strong?(use_dictionary: true)).to eq(strength)
         end
       end
     end
@@ -56,7 +57,7 @@ module StrongPassword
         'c0rr#ct h0rs3 Batt$ry st@pl3 is Gr34t' => true
       }.each do |password, strength|
         it "is_strong? returns #{strength} for '#{password}' with standard bits of entropy" do
-          expect(StrengthChecker.new(password).is_strong?(min_entropy: 40, use_dictionary: true)).to be(strength)
+          expect(StrengthChecker.new(password).is_strong?(min_entropy: 40, use_dictionary: true)).to eq(strength)
         end
       end
     end

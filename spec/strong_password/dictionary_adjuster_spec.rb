@@ -40,9 +40,9 @@ module StrongPassword
         'h#e0zbPas' => 19.5, # Random string should not get adjusted by dictionary adjuster
         'password' => 4, # Adjusts common dictionary words
         'E_!3password' => 11.5, # Adjusts common dictionary words regardless of placement
-        'h#e0zbPas 32e2i81 password' => 31.3125, # Even if there are multiple words
+        'h#e0zbPas 32e2i81 password' => 31.0625, # Even if there are multiple words
         '123456' => 4, # Even if they are also qwerty strings
-        'password123456' => 16, # But only drops the first matched word
+        'password123456' => 14, # But only drops the first matched word
         'asdf)asdf' => 14, # Doesn't break with parens
         'asdf[]asdf' => 16 # Doesn't break with []s
       }.each do |password, bits|
