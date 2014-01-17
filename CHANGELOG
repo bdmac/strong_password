@@ -1,3 +1,7 @@
+## v0.0.4
+* peterkovacs - Increase size of password dictionary
+* peterkovacs - Swapped in a cleaner, more efficient comparison algorithm
+
 ## v0.0.3
 * Fix nil error in password strength validations.
 
