@@ -1,1 +1,1 @@
-require 'rails/railtie'
+require 'rails/railtie' if defined?(Rails)
