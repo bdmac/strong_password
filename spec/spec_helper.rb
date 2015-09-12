@@ -1,6 +1,6 @@
 require 'bundler/setup'
-require 'strong_password'
 require 'active_model'
+require 'strong_password'
 
 RSpec.configure do |config|
   config.expect_with(:rspec) {|c| c.syntax = :expect}

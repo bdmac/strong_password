@@ -7,24 +7,24 @@ module StrongPassword
 
       it 'returns true if the calculated entropy is >= the minimum' do
         subject.stub(adjusted_entropy: 18)
-        expect(subject.is_strong?).to be_true
+        expect(subject.is_strong?).to be_truthy
       end
-      
+
       it 'returns false if the calculated entropy is < the minimum' do
         subject.stub(adjusted_entropy: 17)
-        expect(subject.is_strong?).to be_false
+        expect(subject.is_strong?).to be_falsey
       end
     end
-    
+
     describe '#is_weak?' do
       let(:subject) { QwertyAdjuster.new('password') }
 
       it 'returns the opposite of is_strong?' do
         subject.stub(is_strong?: true)
-        expect(subject.is_weak?).to be_false
+        expect(subject.is_weak?).to be_falsey
       end
     end
-    
+
     describe '#adjusted_entropy' do
       before(:each) { NistBonusBits.stub(bonus_bits: 0)}
       {

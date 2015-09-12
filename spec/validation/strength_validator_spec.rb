@@ -18,7 +18,7 @@ class TestStrengthStrongEntropy < User
 end
 
 class TestStrengthExtraWords < User
-  validates :password, password_strength: {extra_dictionary_words: ['mcmanus'], use_dictionary: true}
+  validates :password, password_strength: {extra_dictionary_words: ['administrator'], use_dictionary: true}
 end
 
 class TestBaseStrengthAlternative < User
@@ -138,11 +138,15 @@ module ActiveModel
 
         describe 'extra words' do
           it 'allows extra words to be specified as an option to the validation' do
-            password = 'mcmanus'
+            password = 'administratorWEQ@123'
+            # Validate that without 'administrator' added to extra_dictionary_words
+            # this password is considered strong
             weak_entropy.password = password
-            expect(weak_entropy.valid?).to be_true
+            expect(weak_entropy.valid?).to be_truthy
+            # Now check that with 'administrator' added to extra_dictionary_words
+            # in our model, the same password is considered weak.
             extra_words.password = password
-            expect(extra_words.valid?).to be_false
+            expect(extra_words.valid?).to be_falsey
           end
         end
       end

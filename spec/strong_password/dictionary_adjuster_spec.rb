@@ -7,12 +7,12 @@ module StrongPassword
 
       it 'returns true if the calculated entropy is >= the minimum' do
         subject.stub(adjusted_entropy: 18)
-        expect(subject.is_strong?).to be_true
+        expect(subject.is_strong?).to be_truthy
       end
 
       it 'returns false if the calculated entropy is < the minimum' do
         subject.stub(adjusted_entropy: 17)
-        expect(subject.is_strong?).to be_false
+        expect(subject.is_strong?).to be_falsey
       end
     end
 
@@ -21,7 +21,7 @@ module StrongPassword
 
       it 'returns the opposite of is_strong?' do
         subject.stub(is_strong?: true)
-        expect(subject.is_weak?).to be_false
+        expect(subject.is_weak?).to be_falsey
       end
     end
 
@@ -52,9 +52,9 @@ module StrongPassword
       end
 
       it 'allows extra words to be provided as an array' do
-        password = 'mcmanus'
+        password = 'administratorWEQ@123'
         base_entropy = EntropyCalculator.calculate(password)
-        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_dictionary_words: ['mcmanus'])).not_to eq(base_entropy)
+        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_dictionary_words: ['administrator'])).not_to eq(base_entropy)
       end
 
       it 'allows minimum word length to be adjusted' do
