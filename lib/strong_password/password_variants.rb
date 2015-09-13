@@ -1,6 +1,8 @@
 module StrongPassword
   module PasswordVariants
-    LEET_SPEAK_1 = {
+    LEET_SPEAK_REGEXP = /[\@\!\$1234567890]/
+
+    LEET_SPEAK = {
       "@" => "a",
       "!" => "i",
       "$" => "s",
@@ -16,37 +18,9 @@ module StrongPassword
       "0" => "o"
     }
 
-    LEET_SPEAK_2 = {
-      "@" => "a",
-      "!" => "i",
-      "$" => "s",
-      "1" => "l",
-      "2" => "z",
-      "3" => "e",
-      "4" => "a",
-      "5" => "s",
-      "6" => "g",
-      "7" => "t",
-      "8" => "b",
-      "9" => "g",
-      "0" => "o"
-    }
+    LEET_SPEAK_ALT = LEET_SPEAK.dup.merge!("1" => "l",)
 
-    KEYBOARDMAP_DOWN_NOSHIFT = {
-      "z" => "", 
-      "x" => "", 
-      "c" => "", 
-      "v" => "", 
-      "b" => "", 
-      "n" => "", 
-      "m" => "", 
-      "," => "", 
-      "." => "", 
-      "/" => "", 
-      "<" => "", 
-      ">" => "", 
-      "?" => ""
-    }
+    BOTTOM_ROW_REGEXP = /[zxcvbnm,\.\/\<\>\?]/
 
     KEYBOARDMAP_DOWNRIGHT = {
       "a" => "z",
@@ -105,7 +79,7 @@ module StrongPassword
       "p" => "l",
       "-" => "p"
     }
-    
+
     # Returns all variants of a given password including the password itself
     def self.all_variants(password)
       passwords = [password.downcase]
@@ -117,37 +91,26 @@ module StrongPassword
     # Returns all keyboard shifted variants of a given password
     def self.keyboard_shift_variants(password)
       password = password.downcase
-      variants = []
-      
-      if (password == password.tr(KEYBOARDMAP_DOWN_NOSHIFT.keys.join, KEYBOARDMAP_DOWN_NOSHIFT.values.join))
-        variant = password.tr(KEYBOARDMAP_DOWNRIGHT.keys.join, KEYBOARDMAP_DOWNRIGHT.values.join)
-        variants << variant
-        variants << variant.reverse
 
-        variant = password.tr(KEYBOARDMAP_DOWNLEFT.keys.join, KEYBOARDMAP_DOWNLEFT.values.join)
-        variants << variant
-        variants << variant.reverse
-      end
-      variants
+      return [] if password.match(BOTTOM_ROW_REGEXP)
+      variants(password, KEYBOARDMAP_DOWNRIGHT, KEYBOARDMAP_DOWNLEFT)
     end
 
     # Returns all leet speak variants of a given password
     def self.leet_speak_variants(password)
       password = password.downcase
-      variants = []
 
-      leet = password.tr(LEET_SPEAK_1.keys.join, LEET_SPEAK_1.values.join)
-      if leet != password
-        variants << leet
-        variants << leet.reverse
-      end
+      return [] if !password.match(LEET_SPEAK_REGEXP)
+      variants(password, LEET_SPEAK, LEET_SPEAK_ALT)
+    end
 
-      leet_l = password.tr(LEET_SPEAK_2.keys.join, LEET_SPEAK_2.values.join)
-      if (leet_l != password && leet_l != leet)
-        variants << leet_l
-        variants << leet_l.reverse
+    private
+
+    def self.variants(password, *mappings)
+      mappings.flat_map do |map|
+        variant = password.tr(map.keys.join, map.values.join)
+        [variant, variant.reverse]
       end
-      variants
     end
   end
 end
