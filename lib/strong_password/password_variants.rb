@@ -18,7 +18,7 @@ module StrongPassword
       "0" => "o"
     }
 
-    LEET_SPEAK_ALT = LEET_SPEAK.dup.merge!("1" => "l",)
+    LEET_SPEAK_ALT = LEET_SPEAK.dup.merge!("1" => "l")
 
     BOTTOM_ROW_REGEXP = /[zxcvbnm,\.\/\<\>\?]/
 
