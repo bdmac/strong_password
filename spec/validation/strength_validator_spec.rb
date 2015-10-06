@@ -47,7 +47,7 @@ module ActiveModel
               it "adds errors when password is '#{password}'" do
                 base_strength.password = password
                 base_strength.valid?
-                expect(base_strength.errors[:password]).to eq(["Password is too weak"])
+                expect(base_strength.errors[:password]).to eq(["is too weak"])
               end
             end
           end
@@ -79,7 +79,7 @@ module ActiveModel
               it "adds errors when password is '#{password}'" do
                 alternative_usage.password = password
                 alternative_usage.valid?
-                expect(alternative_usage.errors[:password]).to eq(["Password is too weak"])
+                expect(alternative_usage.errors[:password]).to eq(["is too weak"])
               end
             end
           end
@@ -129,7 +129,7 @@ module ActiveModel
                 it "'#{password}' should be invalid with increased entropy requirement" do
                   strong_entropy.password = password
                   strong_entropy.valid?
-                  expect(strong_entropy.errors[:password]).to eq(["Password is too weak"])
+                  expect(strong_entropy.errors[:password]).to eq(["is too weak"])
                 end
               end
             end

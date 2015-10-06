@@ -65,15 +65,15 @@ class User
 end
 ```
 
-The default validation message is "%{attribute} is too weak".  If you would like to customize that you can override it in your locale file
-by setting a value for this key:
+The default validation message is "is too weak". Rails will display a field of `:password` having too weak of a password with `full_error_messages` as "Password is too weak". If you would like to customize the error message, you can override it in your locale file by setting a value for this key:
+
 
 ```yml
 en:
   errors:
     messages:
       password:
-        password_strength: "%{attribute} is a terrible password, try again!"
+        password_strength: "is a terrible password, try again!"
 ```
 
 ### Standalone
