@@ -2,4 +2,4 @@ en:
   errors:
     messages:
       password:
-        password_strength: "%{attribute} is too weak"
+        password_strength: "is too weak"
