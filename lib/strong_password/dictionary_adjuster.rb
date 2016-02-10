@@ -993,7 +993,7 @@ module StrongPassword
       min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
       PasswordVariants.all_variants(base_password).inject( min_entropy ) do |min_entropy, variant|
-        [ min_entropy, EntropyCalculator.calculate( variant.sub( dictionary_words, '*' ) ) ].min 
+        [ min_entropy, EntropyCalculator.calculate( variant.gsub( dictionary_words, '' ) ) ].min 
       end
     end
   end
