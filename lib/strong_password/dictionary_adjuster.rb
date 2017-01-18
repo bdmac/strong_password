@@ -71,7 +71,7 @@ module StrongPassword
         bishop windows spirit pantera monday patches brutus houston smooth penguin
         marley forest cream 212121 flash maximus nipple bobby bradley vision pokemon
         champion fireman indian softball picard system clinton cobra enjoy lucky1
-        claire claudia boogie timothy marines security dirty admin wildcats pimp
+        claire claudia boogie timothy marines security dirty admin administrator wildcats pimp
         dancer hardon veronica fucked abcd1234 abcdefg ironman wolverin remember great
         freepass bigred squirt justice francis hobbes kermit pearljam mercury domino
         9999 denver brooke rascal hitman mistress simon tony bbbbbb friend peekaboo
