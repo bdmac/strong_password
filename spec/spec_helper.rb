@@ -1,5 +1,6 @@
 require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+# need to fix it https://github.com/codeclimate/ruby-test-reporter/blob/master/README.md
+# CodeClimate::TestReporter.start
 require 'bundler/setup'
 require 'pry'
 require 'active_model'
