@@ -1,11 +1,12 @@
 module StrongPassword
   class StrengthChecker
     BASE_ENTROPY = 18
-    
+    PASSWORD_LIMIT = 5000
+
     attr_reader :base_password
 
     def initialize(password)
-      @base_password = password.dup
+      @base_password = password.dup[0...PASSWORD_LIMIT]
     end
     
     def is_weak?(min_entropy: BASE_ENTROPY, use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
