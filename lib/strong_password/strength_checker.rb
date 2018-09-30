@@ -1,7 +1,8 @@
 module StrongPassword
   class StrengthChecker
     BASE_ENTROPY = 18
-    PASSWORD_LIMIT = 5000
+    PASSWORD_LIMIT = 1_000
+    EXTRA_WORDS_LIMIT = 50_000
 
     attr_reader :base_password
 
@@ -30,6 +31,7 @@ module StrongPassword
     end
     
     def calculate_entropy(use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
+      extra_dictionary_words.collect! { |w| w[0...EXTRA_WORDS_LIMIT] }
       entropies = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(base_password.downcase), QwertyAdjuster.new(base_password).adjusted_entropy]
       entropies << DictionaryAdjuster.new(base_password).adjusted_entropy(min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words) if use_dictionary
       entropies.min
