@@ -13,7 +13,6 @@ end
 
 gem "rails", rails
 group :test do
-  gem "rspec", "~> 3.8"
-  gem "simplecov", "~> 0.16.1"
-  gem "simplecov-console", "~> 0.4.2"
+  gem "simplecov", "~> 0.16.1", require: false
+  gem "simplecov-console", "~> 0.4.2", require: false
 end
