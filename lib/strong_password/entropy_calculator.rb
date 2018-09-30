@@ -8,7 +8,7 @@ module StrongPassword
         bits(password)
       end
     end
-    
+
     # The basic NIST entropy calculation is based solely
     # on the length of the password in question.
     def self.bits(password)
@@ -24,7 +24,7 @@ module StrongPassword
       end
       bits + NistBonusBits.bonus_bits(password)
     end
-    
+
     # A modified version of the basic entropy calculation
     # which lowers the amount of entropy gained for each
     # repeated character in the password
@@ -36,9 +36,9 @@ module StrongPassword
       end
       bits + NistBonusBits.bonus_bits(password)
     end
-  
+
   private
-    
+
     def self.bit_value_at_position(position, base = 1)
       if position > 19
         return base
@@ -50,17 +50,17 @@ module StrongPassword
         return 4
       end
     end
-  
+
     class EntropyResolver
       BASE_VALUE = 1
       REPEAT_WEAKENING_FACTOR = 0.75
-      
+
       attr_reader :char_multiplier
-      
+
       def initialize
         @char_multiplier = {}
       end
-      
+
       # Returns the current entropy value for a character and weakens the entropy
       # for future calls for the same character.
       def entropy_for(char)

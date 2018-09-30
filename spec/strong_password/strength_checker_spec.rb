@@ -15,7 +15,7 @@ module StrongPassword
         end
       end
     end
-    
+
     context 'with lowered entropy requirement and dictionary checking' do
       {
         'blahblah' => true,
@@ -30,7 +30,7 @@ module StrongPassword
         end
       end
     end
-    
+
     context 'with standard entropy requirement and dictionary checking' do
       {
         'blahblah' => false,
@@ -45,7 +45,7 @@ module StrongPassword
         end
       end
     end
-    
+
     context 'with crazy entropy requirement and dictionary checking' do
       {
         'blahblah' => false,
@@ -59,6 +59,13 @@ module StrongPassword
         it "is_strong? returns #{strength} for '#{password}' with standard bits of entropy" do
           expect(StrengthChecker.new(password).is_strong?(min_entropy: 40, use_dictionary: true)).to eq(strength)
         end
+      end
+    end
+
+    context 'with long password' do
+      let(:strength_checker) { StrengthChecker.new("ba"*500_000) }
+      it "should truncate the password" do
+        expect(strength_checker.instance_variable_get(:@base_password).length).to eq 1000
       end
     end
   end
