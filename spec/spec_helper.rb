@@ -1,5 +1,8 @@
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+require 'simplecov'
+require 'simplecov-console'
+SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.start
+
 require 'bundler/setup'
 require 'pry'
 require 'active_model'

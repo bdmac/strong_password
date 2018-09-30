@@ -38,7 +38,7 @@ module StrongPassword
     end
 
     describe '.bits_with_repeats_weakened' do
-      before(:each) { NistBonusBits.stub(bonus_bits: 0) }
+      before(:each) { allow(NistBonusBits).to receive(:bonus_bits).and_return(0) }
       {
         '' => 0,
         '*' => 4,

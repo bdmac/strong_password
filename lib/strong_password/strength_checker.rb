@@ -2,7 +2,7 @@ module StrongPassword
   class StrengthChecker
     BASE_ENTROPY = 18
     PASSWORD_LIMIT = 1_000
-    EXTRA_WORDS_LIMIT = 50_000
+    EXTRA_WORDS_LIMIT = 1_000
 
     attr_reader :base_password
 
