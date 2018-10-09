@@ -36,9 +36,9 @@ module StrongPassword
         end
       end
     end
-    
+
     describe '.bits_with_repeats_weakened' do
-      before(:each) { NistBonusBits.stub(bonus_bits: 0) }
+      before(:each) { allow(NistBonusBits).to receive(:bonus_bits).and_return(0) }
       {
         '' => 0,
         '*' => 4,
@@ -52,7 +52,7 @@ module StrongPassword
           expect(subject.bits_with_repeats_weakened(password)).to eq(bits)
         end
       end
-      
+
       it 'returns the same value for repeated calls on a password' do
         password = 'password'
         initial_value = subject.bits_with_repeats_weakened(password)

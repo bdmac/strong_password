@@ -8,7 +8,7 @@ module StrongPassword
         NistBonusBits.should_receive(:calculate_bonus_bits_for).and_return(1)
         expect(NistBonusBits.bonus_bits('password')).to eq(1)
       end
-      
+
       it 'caches the bonus bits for a password for later use' do
         NistBonusBits.reset_bonus_cache!
         NistBonusBits.stub(calculate_bonus_bits_for: 1)
@@ -17,7 +17,7 @@ module StrongPassword
         expect(NistBonusBits.bonus_bits('password')).to eq(1)
       end
     end
-    
+
     describe '.calculate_bonus_bits_for' do
 	    {
 	      'Ab$9' => 4,

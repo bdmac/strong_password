@@ -12,4 +12,7 @@ else
 end
 
 gem "rails", rails
-gem "codeclimate-test-reporter", group: :test, require: nil
+group :test do
+  gem "simplecov", "~> 0.16.1", require: false
+  gem "simplecov-console", "~> 0.4.2", require: false
+end
