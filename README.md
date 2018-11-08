@@ -146,10 +146,10 @@ disallowed by the strength checker.
 ## Todo
 
 1. Allow the dictionary of common words to be specified by the user.  This is currently hard-coded to
-   the 500 most common passwords.  That also means it's not a true "dictionary" check...
+   the 10,000 most common passwords.  That also means it's not a true "dictionary" check...
 2. Add a common password adjuster that basically works like the existing DictionaryAdjuster but does
    not stop at the first found word.  Stopping at the first word make sense if you have a 300,000 word
-   dictionary of the English language but not so much when you're only talking about the 500 most
+   dictionary of the English language but not so much when you're only talking about the 10,000 most
    common passwords.
 
 ## Running the tests
