@@ -6,12 +6,12 @@ module StrongPassword
       let(:subject) { DictionaryAdjuster.new('password') }
 
       it 'returns true if the calculated entropy is >= the minimum' do
-        subject.stub(adjusted_entropy: 18)
+        allow(subject).to receive_messages(adjusted_entropy: 18)
         expect(subject.is_strong?).to be_truthy
       end
 
       it 'returns false if the calculated entropy is < the minimum' do
-        subject.stub(adjusted_entropy: 17)
+        allow(subject).to receive_messages(adjusted_entropy: 17)
         expect(subject.is_strong?).to be_falsey
       end
     end
@@ -20,18 +20,18 @@ module StrongPassword
       let(:subject) { DictionaryAdjuster.new('password') }
 
       it 'returns the opposite of is_strong?' do
-        subject.stub(is_strong?: true)
+        allow(subject).to receive_messages(is_strong?: true)
         expect(subject.is_weak?).to be_falsey
       end
     end
 
     describe '#adjusted_entropy' do
-      before(:each) { NistBonusBits.stub(bonus_bits: 0)}
+      before(:each) { allow(NistBonusBits).to receive_messages(bonus_bits: 0)}
 
       it 'checks against all variants of a given password' do
         password = 'password'
         adjuster = DictionaryAdjuster.new(password)
-        PasswordVariants.should_receive(:all_variants).with(password).and_return([])
+        expect(PasswordVariants).to receive(:all_variants).with(password).and_return([])
         adjuster.adjusted_entropy
       end
 
