@@ -3,7 +3,7 @@ require 'spec_helper'
 module StrongPassword
   describe EntropyCalculator do
     describe '.bits' do
-      before(:each) { NistBonusBits.stub(bonus_bits: 0) }
+      before(:each) { allow(NistBonusBits).to receive_messages(bonus_bits: 0) }
       {
         '' => 0,
         '*' => 4,

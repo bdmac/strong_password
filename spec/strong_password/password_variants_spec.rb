@@ -8,12 +8,12 @@ module StrongPassword
       end
 
       it 'includes keyboard shift variants' do
-        subject.stub(keyboard_shift_variants: ['foo', 'bar'])
+        allow(subject).to receive_messages(keyboard_shift_variants: ['foo', 'bar'])
         expect(subject.all_variants("password")).to include('foo', 'bar')
       end
 
       it 'includes leet speak variants' do
-        subject.stub(leet_speak_variants: ['foo', 'bar'])
+        allow(subject).to receive_messages(leet_speak_variants: ['foo', 'bar'])
         expect(subject.all_variants("password")).to include('foo', 'bar')
       end
 

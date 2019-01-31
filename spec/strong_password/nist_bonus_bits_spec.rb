@@ -5,15 +5,15 @@ module StrongPassword
     describe '.bonus_bits' do
       it 'calculates the bonus bits the first time for a given password' do
         NistBonusBits.reset_bonus_cache!
-        NistBonusBits.should_receive(:calculate_bonus_bits_for).and_return(1)
+        expect(NistBonusBits).to receive(:calculate_bonus_bits_for).and_return(1)
         expect(NistBonusBits.bonus_bits('password')).to eq(1)
       end
 
       it 'caches the bonus bits for a password for later use' do
         NistBonusBits.reset_bonus_cache!
-        NistBonusBits.stub(calculate_bonus_bits_for: 1)
+        allow(NistBonusBits).to receive_messages(calculate_bonus_bits_for: 1)
         NistBonusBits.bonus_bits('password')
-        NistBonusBits.should_not_receive(:calculate_bonus_bits_for)
+        expect(NistBonusBits).not_to receive(:calculate_bonus_bits_for)
         expect(NistBonusBits.bonus_bits('password')).to eq(1)
       end
     end
