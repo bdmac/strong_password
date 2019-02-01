@@ -3,25 +3,25 @@ require 'spec_helper'
 module StrongPassword
   describe QwertyAdjuster do
     describe '#is_strong?' do
-      let(:subject) { QwertyAdjuster.new('password') }
+      let(:subject) { QwertyAdjuster.new }
 
       it 'returns true if the calculated entropy is >= the minimum' do
         allow(subject).to receive_messages(adjusted_entropy: 18)
-        expect(subject.is_strong?).to be_truthy
+        expect(subject.is_strong?("password")).to be_truthy
       end
 
       it 'returns false if the calculated entropy is < the minimum' do
         allow(subject).to receive_messages(adjusted_entropy: 17)
-        expect(subject.is_strong?).to be_falsey
+        expect(subject.is_strong?("password")).to be_falsey
       end
     end
 
     describe '#is_weak?' do
-      let(:subject) { QwertyAdjuster.new('password') }
+      let(:subject) { QwertyAdjuster.new }
 
       it 'returns the opposite of is_strong?' do
         allow(subject).to receive_messages(is_strong?: true)
-        expect(subject.is_weak?).to be_falsey
+        expect(subject.is_weak?("password")).to be_falsey
       end
     end
 
@@ -37,7 +37,7 @@ module StrongPassword
         'password' => 17.5 # Ensure that we don't qwerty-adjust 'password'
       }.each do |password, bits|
         it "returns #{bits} for '#{password}'" do
-          expect(QwertyAdjuster.new(password).adjusted_entropy).to eq(bits)
+          expect(QwertyAdjuster.new.adjusted_entropy(password)).to eq(bits)
         end
       end
     end

@@ -17,24 +17,25 @@ module StrongPassword
       "abcdefghijklmnopqrstuvwxyz"
     ]
 
-    attr_reader :base_password
+    attr_reader :min_entropy, :entropy_threshhold
 
-    def initialize(password)
-      @base_password = password.downcase
+    def initialize(min_entropy: 18, entropy_threshhold: 0)
+      @min_entropy = min_entropy
+      @entropy_threshhold = entropy_threshhold
     end
 
-    def is_strong?(min_entropy: 18)
-      adjusted_entropy(entropy_threshhold: min_entropy) >= min_entropy
+    def is_strong?(base_password)
+      adjusted_entropy(base_password) >= min_entropy
     end
 
-    def is_weak?(min_entropy: 18)
-      !is_strong?(min_entropy: min_entropy)
+    def is_weak?(base_password)
+      !is_strong?(base_password)
     end
 
     # Returns the minimum entropy for the password's qwerty locality
     # adjustments.  If a threshhold is specified we will bail
     # early to avoid unnecessary processing.
-    def adjusted_entropy(entropy_threshhold: 0)
+    def adjusted_entropy(base_password)
       revpassword = base_password.reverse
       min_entropy = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(revpassword)].min
       QWERTY_STRINGS.each do |qwertystr|
