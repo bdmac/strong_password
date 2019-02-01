@@ -38,37 +38,40 @@ module StrongPassword
     def adjusted_entropy(base_password)
       revpassword = base_password.reverse
       min_entropy = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(revpassword)].min
-      QWERTY_STRINGS.each do |qwertystr|
-        qpassword = mask_qwerty_strings(base_password, qwertystr)
-        qrevpassword = mask_qwerty_strings(revpassword, qwertystr)
-        if qpassword != base_password
-          numbits = EntropyCalculator.calculate(qpassword)
-          min_entropy = [min_entropy, numbits].min
-          return min_entropy if min_entropy < entropy_threshhold
-        end
-        if qrevpassword != revpassword
-          numbits = EntropyCalculator.calculate(qrevpassword)
-          min_entropy = [min_entropy, numbits].min
-          return min_entropy if min_entropy < entropy_threshhold
-        end
+      qpassword = mask_qwerty_strings(base_password)
+      qrevpassword = mask_qwerty_strings(revpassword)
+      if qpassword != base_password
+        numbits = EntropyCalculator.calculate(qpassword)
+        min_entropy = [min_entropy, numbits].min
+        return min_entropy if min_entropy < entropy_threshhold
+      end
+      if qrevpassword != revpassword
+        numbits = EntropyCalculator.calculate(qrevpassword)
+        min_entropy = [min_entropy, numbits].min
+        return min_entropy if min_entropy < entropy_threshhold
       end
       min_entropy
     end
 
   private
 
-    def mask_qwerty_strings(password, qwerty_string)
-      masked_password = password
-      z = 6
-      begin
+    def all_qwerty_strings
+      @all_qwerty_strings ||= Regexp.union(QWERTY_STRINGS.flat_map do |qwerty_string|
+        gen_qw_strings(qwerty_string)
+      end)
+    end
+
+    def gen_qw_strings(qwerty_string)
+      6.downto(3).flat_map do |z|
         y = qwerty_string.length - z
-        (0..y).each do |x|
-          str = qwerty_string[x, z].sub('-', '\\-')
-          masked_password = masked_password.sub(str, '*')
+        (0..y).map do |x|
+          qwerty_string[x, z].sub('-', '\\-')
         end
-        z = z - 1
-      end while z > 2
-      masked_password
+      end
+    end
+
+    def mask_qwerty_strings(password)
+      password.gsub(all_qwerty_strings, '*')
     end
   end
 end
