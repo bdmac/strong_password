@@ -22,9 +22,11 @@ module StrongPassword
              (EntropyCalculator.calculate(base_password.downcase) < min_entropy) ||
              (QwertyAdjuster.new(min_entropy: min_entropy).is_weak?(base_password))
       if !weak && use_dictionary
-        return DictionaryAdjuster.new(base_password).is_strong?(min_entropy: min_entropy,
-                    min_word_length: min_word_length, 
-                    extra_dictionary_words: extra_dictionary_words)
+        return DictionaryAdjuster.new(
+          min_entropy: min_entropy,
+          min_word_length: min_word_length,
+          extra_dictionary_words: extra_dictionary_words
+        ).is_strong?(base_password)
       else
         return !weak
       end
@@ -33,7 +35,10 @@ module StrongPassword
     def calculate_entropy(use_dictionary: false, min_word_length: 4, extra_dictionary_words: [])
       extra_dictionary_words.collect! { |w| w[0...EXTRA_WORDS_LIMIT] }
       entropies = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(base_password.downcase), QwertyAdjuster.new.adjusted_entropy(base_password)]
-      entropies << DictionaryAdjuster.new(base_password).adjusted_entropy(min_word_length: min_word_length, extra_dictionary_words: extra_dictionary_words) if use_dictionary
+      entropies << DictionaryAdjuster.new(
+        min_word_length: min_word_length,
+        extra_dictionary_words: extra_dictionary_words
+      ).adjusted_entropy(base_password) if use_dictionary
       entropies.min
     end
   end
