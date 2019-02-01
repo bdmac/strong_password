@@ -73,7 +73,7 @@ module StrongPassword
       let(:strength_checker) { StrengthChecker.new("$tr0NgP4s$w0rd91d£") }
       let(:exta_limit) { StrengthChecker::EXTRA_WORDS_LIMIT }
       it 'should be truncated' do
-        expect_any_instance_of(DictionaryAdjuster).to receive(:adjusted_entropy).with({
+        expect(DictionaryAdjuster).to receive(:new).with({
             min_word_length: 4,
             extra_dictionary_words:
             ["a"*StrengthChecker::EXTRA_WORDS_LIMIT, "b"*StrengthChecker::EXTRA_WORDS_LIMIT, "c"*10]

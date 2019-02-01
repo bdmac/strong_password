@@ -3,25 +3,25 @@ require 'spec_helper'
 module StrongPassword
   describe DictionaryAdjuster do
     describe '#is_strong?' do
-      let(:subject) { DictionaryAdjuster.new('password') }
+      let(:subject) { DictionaryAdjuster.new }
 
       it 'returns true if the calculated entropy is >= the minimum' do
         allow(subject).to receive_messages(adjusted_entropy: 18)
-        expect(subject.is_strong?).to be_truthy
+        expect(subject.is_strong?('password')).to be_truthy
       end
 
       it 'returns false if the calculated entropy is < the minimum' do
         allow(subject).to receive_messages(adjusted_entropy: 17)
-        expect(subject.is_strong?).to be_falsey
+        expect(subject.is_strong?('password')).to be_falsey
       end
     end
 
     describe '#is_weak?' do
-      let(:subject) { DictionaryAdjuster.new('password') }
+      let(:subject) { DictionaryAdjuster.new }
 
       it 'returns the opposite of is_strong?' do
         allow(subject).to receive_messages(is_strong?: true)
-        expect(subject.is_weak?).to be_falsey
+        expect(subject.is_weak?('password')).to be_falsey
       end
     end
 
@@ -30,9 +30,9 @@ module StrongPassword
 
       it 'checks against all variants of a given password' do
         password = 'password'
-        adjuster = DictionaryAdjuster.new(password)
+        adjuster = DictionaryAdjuster.new
         expect(PasswordVariants).to receive(:all_variants).with(password).and_return([])
-        adjuster.adjusted_entropy
+        adjuster.adjusted_entropy(password)
       end
 
       {
@@ -47,21 +47,21 @@ module StrongPassword
         'asdf[]asdf' => 16 # Doesn't break with []s
       }.each do |password, bits|
         it "returns #{bits} for '#{password}'" do
-          expect(DictionaryAdjuster.new(password).adjusted_entropy).to eq(bits)
+          expect(DictionaryAdjuster.new.adjusted_entropy(password)).to eq(bits)
         end
       end
 
       it 'allows extra words to be provided as an array' do
         password = 'administratorWEQ@123'
         base_entropy = EntropyCalculator.calculate(password)
-        expect(DictionaryAdjuster.new(password).adjusted_entropy(extra_dictionary_words: ['administrator'])).not_to eq(base_entropy)
+        expect(DictionaryAdjuster.new(extra_dictionary_words: ['administrator']).adjusted_entropy(password)).not_to eq(base_entropy)
       end
 
       it 'allows minimum word length to be adjusted' do
         password = '6969'
-        base_entropy = DictionaryAdjuster.new(password).adjusted_entropy
+        base_entropy = DictionaryAdjuster.new.adjusted_entropy(password)
         # If we increase the min_word_length above the length of the password we should get a higher entropy
-        expect(DictionaryAdjuster.new(password).adjusted_entropy(min_word_length: 6)).not_to be < base_entropy
+        expect(DictionaryAdjuster.new(min_word_length: 6).adjusted_entropy(password)).not_to be < base_entropy
       end
     end
   end
