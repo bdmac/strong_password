@@ -990,12 +990,15 @@ module StrongPassword
     # Subsequent matching words are not deductd.
     def adjusted_entropy(password)
       base_password = password.downcase
-      dictionary_words = Regexp.union( ( extra_dictionary_words + COMMON_PASSWORDS ).compact.reject{ |i| i.length < min_word_length } )
       min_entropy = EntropyCalculator.calculate(base_password)
       # Process the passwords, while looking for possible matching words in the dictionary.
       PasswordVariants.all_variants(base_password).inject( min_entropy ) do |min_entropy, variant|
         [ min_entropy, EntropyCalculator.calculate( variant.sub( dictionary_words, '*' ) ) ].min 
       end
+    end
+
+    def dictionary_words
+      @dictionary_words ||= Regexp.union( ( extra_dictionary_words + COMMON_PASSWORDS ).compact.reject{ |i| i.length < min_word_length } )
     end
   end
 end
