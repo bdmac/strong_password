@@ -26,7 +26,7 @@ module StrongPassword
     end
 
     describe '#adjusted_entropy' do
-      before(:each) { allow(NistBonusBits).to receive_messages(bonus_bits: 0)}
+      before(:each) { allow(NistBonusBits).to receive_messages(bonus_bits: 0) }
 
       it 'checks against all variants of a given password' do
         password = 'password'

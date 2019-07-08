@@ -1,3 +1,16 @@
+## v0.0.8
+This release breaks backwards compatibility if you are using the lib components
+directly. If you are using the ActiveModel validations in a Rails project then
+you should be unaffected.
+
+The major changes when used directly are that you now initialize the objects
+with the various strength options instead of the password and then provide the
+password to the various methods. The README section on standalone usage has
+been updated to reflect this change.
+
+* jacobat - Performance improvements
+* jacksenechal - Updated README
+
 ## v0.0.4
 * peterkovacs - Increase size of password dictionary
 * peterkovacs - Swapped in a cleaner, more efficient comparison algorithm

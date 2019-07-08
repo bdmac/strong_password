@@ -19,7 +19,7 @@ NOTE: StrongPassword requires the use of Ruby 2.0.  Upgrade if you haven't alrea
 
 Add this line to your application's Gemfile:
 
-    gem 'strong_password', '~> 0.0.6'
+    gem 'strong_password', '~> 0.0.8'
 
 And then execute:
 
@@ -82,18 +82,22 @@ StrongPassword can also be used standalone if you need to. There are a few helpe
 password is strong or not. You can also directly access the entropy calculations if you want.
 
 ```text
-2.0.0p0 :001 > checker = StrongPassword::StrengthChecker.new('password')
- => #<StrongPassword::StrengthChecker:0x007fcd7c939b48 @base_password="password">
-2.0.0p0 :002 > checker.is_strong?
- => false
-2.0.0p0 :003 > checker.is_weak?
- => true
-2.0.0p0 :004 > checker.is_strong?(min_entropy: 2)
- => true
-2.0.0p0 :005 > checker.calculate_entropy
- => 15.5
-2.0.0p0 :006 > checker.calculate_entropy(use_dictionary: true)
- => 2
+irb(main):004:0> checker = StrongPassword::StrengthChecker.new
+=> #<StrongPassword::StrengthChecker:0x00007f985509db30 @min_entropy=18, @use_dictionary=false, @min_word_length=4, @extra_dictionary_words=[]>
+irb(main):005:0> checker.is_strong?("password")
+=> false
+irb(main):006:0> checker.is_weak?("password")
+=> true
+irb(main):007:0> checker = StrongPassword::StrengthChecker.new(min_entropy: 2)
+=> #<StrongPassword::StrengthChecker:0x00007f9855147bd0 @min_entropy=2, @use_dictionary=false, @min_word_length=4, @extra_dictionary_words=[]>
+irb(main):008:0> checker.calculate_entropy("password")
+=> 15.5
+irb(main):009:0> checker.is_strong?("password")
+=> true
+irb(main):010:0> checker = StrongPassword::StrengthChecker.new(use_dictionary: true)
+=> #<StrongPassword::StrengthChecker:0x00007f98550ee008 @min_entropy=18, @use_dictionary=true, @min_word_length=4, @extra_dictionary_words=[]>
+irb(main):011:0> checker.calculate_entropy("password")
+=> 2
 ```
 
 ## Details
