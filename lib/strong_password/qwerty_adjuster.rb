@@ -37,20 +37,18 @@ module StrongPassword
     # early to avoid unnecessary processing.
     def adjusted_entropy(base_password)
       revpassword = base_password.reverse
-      min_entropy = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(revpassword)].min
+      lowest_entropy = [EntropyCalculator.calculate(base_password), EntropyCalculator.calculate(revpassword)].min
+      # If our entropy is already lower than we care about then there's no reason to look further.
+      return lowest_entropy if lowest_entropy < entropy_threshhold
+
       qpassword = mask_qwerty_strings(base_password)
+      lowest_entropy = [lowest_entropy, EntropyCalculator.calculate(qpassword)].min if qpassword != base_password
+      # Bail early if our entropy on the base password's masked qwerty value is less than our threshold.
+      return lowest_entropy if lowest_entropy < entropy_threshhold
+
       qrevpassword = mask_qwerty_strings(revpassword)
-      if qpassword != base_password
-        numbits = EntropyCalculator.calculate(qpassword)
-        min_entropy = [min_entropy, numbits].min
-        return min_entropy if min_entropy < entropy_threshhold
-      end
-      if qrevpassword != revpassword
-        numbits = EntropyCalculator.calculate(qrevpassword)
-        min_entropy = [min_entropy, numbits].min
-        return min_entropy if min_entropy < entropy_threshhold
-      end
-      min_entropy
+      lowest_entropy = [lowest_entropy, EntropyCalculator.calculate(qrevpassword)].min if qrevpassword != revpassword
+      lowest_entropy
     end
 
     private
