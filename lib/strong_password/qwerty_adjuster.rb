@@ -1,25 +1,25 @@
 module StrongPassword
   class QwertyAdjuster
     QWERTY_STRINGS = [
-      "1234567890-",
-      "qwertyuiop",
-      "asdfghjkl;",
-      "zxcvbnm,./",
+      '1234567890-',
+      'qwertyuiop',
+      'asdfghjkl;',
+      'zxcvbnm,./',
       "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik,9ol.0p;/-['=]:?_{\"+}",
-      "1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik9ol0p",
+      '1qaz2wsx3edc4rfv5tgb6yhn7ujm8ik9ol0p',
       "qazwsxedcrfvtgbyhnujmik,ol.p;/-['=]:?_{\"+}",
-      "qazwsxedcrfvtgbyhnujmikolp",
-      "]\"/=[;.-pl,0okm9ijn8uhb7ygv6tfc5rdx4esz3wa2q1",
-      "pl0okm9ijn8uhb7ygv6tfc5rdx4esz3wa2q1",
-      "]\"/[;.pl,okmijnuhbygvtfcrdxeszwaq",
-      "plokmijnuhbygvtfcrdxeszwaq",
-      "014725836914702583697894561230258/369*+-*/",
-      "abcdefghijklmnopqrstuvwxyz"
-    ]
+      'qazwsxedcrfvtgbyhnujmikolp',
+      ']"/=[;.-pl,0okm9ijn8uhb7ygv6tfc5rdx4esz3wa2q1',
+      'pl0okm9ijn8uhb7ygv6tfc5rdx4esz3wa2q1',
+      ']"/[;.pl,okmijnuhbygvtfcrdxeszwaq',
+      'plokmijnuhbygvtfcrdxeszwaq',
+      '014725836914702583697894561230258/369*+-*/',
+      'abcdefghijklmnopqrstuvwxyz'
+    ].freeze
 
     attr_reader :min_entropy, :entropy_threshhold
 
-    def initialize(min_entropy: 18, entropy_threshhold: 0)
+    def initialize(min_entropy: 18, entropy_threshhold: min_entropy)
       @min_entropy = min_entropy
       @entropy_threshhold = entropy_threshhold
     end
@@ -53,7 +53,7 @@ module StrongPassword
       min_entropy
     end
 
-  private
+    private
 
     def all_qwerty_strings
       @all_qwerty_strings ||= Regexp.union(QWERTY_STRINGS.flat_map do |qwerty_string|
