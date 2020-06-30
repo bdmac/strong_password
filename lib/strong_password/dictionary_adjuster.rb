@@ -1000,5 +1000,13 @@ module StrongPassword
     def dictionary_words
       @dictionary_words ||= Regexp.union( ( extra_dictionary_words + COMMON_PASSWORDS ).compact.reject{ |i| i.length < min_word_length } )
     end
+
+     def matched_dictionary_words(password)
+       base_password = password.downcase
+
+       PasswordVariants.all_variants(base_password).map do |variant|
+         dictionary_words.match(variant)
+       end.compact.map(&:to_s)
+     end
   end
 end

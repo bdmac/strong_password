@@ -64,5 +64,12 @@ module StrongPassword
         expect(DictionaryAdjuster.new(min_word_length: 6).adjusted_entropy(password)).not_to be < base_entropy
       end
     end
+
+    describe '#matched_dictionary_words' do
+      it 'includes word from dictionary' do
+        password = '3vangeli'
+        expect(DictionaryAdjuster.new.matched_dictionary_words(password)).to eq(['angel', 'evangeli'])
+      end
+    end
   end
 end
