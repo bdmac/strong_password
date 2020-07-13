@@ -1,3 +1,5 @@
+## v0.0.9
+* jfabre - Remove ruby 2.7 warning
 ## v0.0.8
 This release breaks backwards compatibility if you are using the lib components
 directly. If you are using the ActiveModel validations in a Rails project then
