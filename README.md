@@ -1,4 +1,4 @@
-# StrongPassword - MODIFIED ON BRANCH
+# StrongPassword - MODIFIED ON BRANCH AGAIN
 
 StrongPassword provides entropy-based password strength checking for your apps.
 
