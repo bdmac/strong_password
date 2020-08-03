@@ -1,4 +1,4 @@
-This is a test!
+This is a test! Changed locally.
 
 [![Build Status](https://travis-ci.org/bdmac/strong_password.svg?branch=master)](https://travis-ci.org/bdmac/strong_password)
 [![Code Climate](https://codeclimate.com/github/bdmac/strong_password/badges/gpa.svg)](https://codeclimate.com/github/bdmac/strong_password)
