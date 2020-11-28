@@ -19,7 +19,9 @@ NOTE: StrongPassword requires the use of Ruby 2.0.  Upgrade if you haven't alrea
 
 Add this line to your application's Gemfile:
 
-    gem 'strong_password', '~> 0.0.8'
+```ruby
+gem 'strong_password', '~> 0.0.8'
+```
 
 And then execute:
 
@@ -81,7 +83,7 @@ en:
 StrongPassword can also be used standalone if you need to. There are a few helper methods for determining whether a
 password is strong or not. You can also directly access the entropy calculations if you want.
 
-```text
+```console
 irb(main):004:0> checker = StrongPassword::StrengthChecker.new
 => #<StrongPassword::StrengthChecker:0x00007f985509db30 @min_entropy=18, @use_dictionary=false, @min_word_length=4, @extra_dictionary_words=[]>
 irb(main):005:0> checker.is_strong?("password")
