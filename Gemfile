@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
@@ -13,6 +14,6 @@ end
 
 gem "rails", rails
 group :test do
-  gem "simplecov", "~> 0.16.1", require: false
-  gem "simplecov-console", "~> 0.4.2", require: false
+  gem "simplecov", require: false
+  gem "simplecov-console", require: false
 end
