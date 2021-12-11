@@ -20,7 +20,7 @@ NOTE: StrongPassword requires the use of Ruby 2.0.  Upgrade if you haven't alrea
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'strong_password', '~> 0.0.9'
+gem 'strong_password', '~> 0.0.10'
 ```
 
 And then execute:
