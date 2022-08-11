@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: strong_password
+  annotations:
+    github.com/project-slug: Tiaan/strong_password
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
