@@ -137,7 +137,7 @@ between 3 and 6 in length and reduces the entropy of the password accordingly.
 Finally, if specified, we will run the password through a `DictionaryAdjuster`.  This is the slowest part of the
 algorithm but adds significantly to the strength checking.  Ideally this should be run against a large dictionary
 of the most commong words in your language (e.g. a 300,000 word English dictionary).  Currently I just have this
-hard-coded to run against an embedded list of the 500 most common passwords.  This is much faster than running
+hard-coded to run against an embedded list of the [9,995](https://github.com/bdmac/strong_password/blob/6ec0701986dcf240533a29d9fcae52c9e0515b99/lib/strong_password/dictionary_adjuster.rb#L3) most common passwords.  This is much faster than running
 against a 300,000 dictionary file and still adds considerably to the strength checking.  The password is checked
 against all dictionary words over a minimum word length (default is 4).  We also generate variations of
 the password to check for common things like leet speak, and qwerty-shifted passwords.  The lowest entropy found
