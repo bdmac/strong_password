@@ -4,7 +4,7 @@
 
 # StrongPassword
 dsfsdfsdfsdfs
-StrongPassword provides entropy-based password strength checking for your apps.
+StrongPassword provideddddds entropy-based password strength checking for your apps.
 
 The idea stemmed from the
 "[Checking Password Strength](http://stackoverflow.com/questions/549/the-definitive-guide-to-forms-based-website-authentication)"
