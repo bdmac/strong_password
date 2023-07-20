@@ -3,8 +3,8 @@
 [![Test Coverage](https://codeclimate.com/github/bdmac/strong_password/badges/coverage.svg)](https://codeclimate.com/github/bdmac/strong_password/coverage)
 
 # StrongPassword
-
-StrongPassword provides entropy-based password strength checking for your apps.
+dsfsdfsdfsdfs
+StrongPassword provideddddds entropy-based password strength checking for your apps.
 
 The idea stemmed from the
 "[Checking Password Strength](http://stackoverflow.com/questions/549/the-definitive-guide-to-forms-based-website-authentication)"
