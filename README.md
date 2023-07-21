@@ -4,6 +4,7 @@
 
 # StrongPassword
 Web client test
+Another change
 
 StrongPassword provides entropy-based password strength checking for your apps.
 
