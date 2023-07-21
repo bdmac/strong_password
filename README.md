@@ -3,6 +3,7 @@
 [![Test Coverage](https://codeclimate.com/github/bdmac/strong_password/badges/coverage.svg)](https://codeclimate.com/github/bdmac/strong_password/coverage)
 
 # StrongPassword
+Web client test
 
 StrongPassword provides entropy-based password strength checking for your apps.
 
