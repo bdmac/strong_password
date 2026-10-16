@@ -41,6 +41,8 @@ used standalone if needed.
 StrongPassword adds a custom validator for use with ActiveModel validations.  Your model does NOT need to be an ActiveRecord
 model, it simply has to be an object that includes `ActiveModel::Validations`.  Use it like so:
 
+This is a change to the usage instructions yay.
+
 ```ruby
 class User
   include ActiveModel::Validations
